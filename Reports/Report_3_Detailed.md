@@ -674,8 +674,12 @@ State-Level Delivery Performance
 Delivery Performance by Region Report
 ```
 
-# 13. SQL Implementation
+## 13. SQL Implementation
 
 The complete Oracle SQL implementation for this report is available in the main project SQL file.
 
 [View Complete SQL Implementation](../sql-capstone-multi-table-ecommerce-analysis.sql)
+
+## 14. Report Output
+
+**[View Report 3 Output PDF](../Outputs/Report_3_Output.pdf)**
