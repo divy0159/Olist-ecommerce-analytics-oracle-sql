@@ -515,4 +515,4 @@ The SQL implementation contains the complete CTE pipeline and final customer val
 
 ## 14. Report Output
 
-**[View Report 1 Output PDF](Outputs/Report_1_Output.pdf)**
+**[View Report 1 Output PDF](../Outputs/Report_1_Output.pdf)**
