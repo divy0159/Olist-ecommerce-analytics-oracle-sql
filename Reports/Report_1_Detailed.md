@@ -125,7 +125,7 @@ with valid_orders as (
 )
 ```
 
-### What it does
+### What It Does
 
 * Reads order information from `orders1`.
 * Excludes orders with status:
@@ -135,9 +135,9 @@ with valid_orders as (
 
 Only the remaining orders are passed to the next stages of the analysis.
 
-### Why it matters
+### Why It Matters
 
-Cancelled and unavailable orders should not contribute to a customer's completed purchasing history when identifying repeat customers and their purchasing behavior.
+Cancelled and unavailable orders should not contribute to a customer's purchasing history when identifying repeat customers and their purchasing behavior.
 
 ---
 
@@ -147,7 +147,7 @@ Cancelled and unavailable orders should not contribute to a customer's completed
 
 Identifies customers who have placed **3 or more valid orders**.
 
-### Main logic
+### Main Logic
 
 The CTE joins `customers` with `valid_orders` using `customer_id`.
 
@@ -158,20 +158,20 @@ It then:
 * Counts distinct valid orders.
 * Keeps only customers with at least 3 valid orders.
 
-### Key SQL logic
+### Key SQL Logic
 
 ```sql
 group by c.customer_unique_id
 having count(distinct vo.order_id) >= 3
 ```
 
-### Why `customer_unique_id` is used
+### Why `customer_unique_id` Is Used
 
 The dataset can contain multiple customer records associated with the same real customer across orders.
 
 Using `customer_unique_id` allows the analysis to identify repeat purchasing behavior at the unique-customer level.
 
-### Output from this CTE
+### Output from This CTE
 
 | Column               | Meaning                                       |
 | -------------------- | --------------------------------------------- |
@@ -205,7 +205,7 @@ It counts distinct orders for every:
 
 combination.
 
-### Ranking logic
+### Ranking Logic
 
 ```sql
 row_number() over(
@@ -215,7 +215,7 @@ row_number() over(
 )
 ```
 
-### What this means
+### What It Does
 
 For each customer:
 
@@ -224,13 +224,13 @@ For each customer:
 3. The seller with the highest number of orders receives `rno = 1`.
 4. Only `rno = 1` is retained.
 
-### Tie-breaking
+### Tie-Breaking
 
 If two sellers have the same number of orders, `seller_id` is used as the secondary sorting column.
 
 This makes the ranking deterministic rather than leaving the tie unresolved.
 
-### Output from this CTE
+### Output from This CTE
 
 | Column               | Meaning                                          |
 | -------------------- | ------------------------------------------------ |
@@ -246,7 +246,7 @@ This makes the ranking deterministic rather than leaving the tie unresolved.
 
 Identifies the customer's **three highest-value orders**.
 
-### Order value calculation
+### Order Value Calculation
 
 For each customer and order, the query calculates:
 
@@ -258,7 +258,7 @@ Therefore:
 
 **Order Value = Product Price + Freight Value**
 
-### Ranking logic
+### Ranking Logic
 
 ```sql
 row_number() over(
@@ -268,7 +268,7 @@ row_number() over(
 )
 ```
 
-### What it does
+### What It Does
 
 For each customer:
 
@@ -281,7 +281,7 @@ For each customer:
 where rn <= 3
 ```
 
-### Output from this CTE
+### Output from This CTE
 
 | Column                  | Meaning                             |
 | ----------------------- | ----------------------------------- |
@@ -298,7 +298,7 @@ where rn <= 3
 
 Calculates the average review score for each customer.
 
-### Join strategy
+### Join Strategy
 
 The CTE uses a **LEFT JOIN** between:
 
@@ -310,18 +310,19 @@ valid_orders
 order_reviews
 ```
 
-### Why LEFT JOIN is important
+### Why LEFT JOIN Is Important
 
 A customer may have placed valid orders but may not have submitted a review.
 
 Using a left join allows customers without reviews to remain in the analysis.
 
-### Review calculation
+### Review Calculation
 
 ```sql
 avg(review_score)
 ```
-The average review score is rounded to two decimal places, converted to text using CAST, and replaced with No Review using COALESCE when no review score is available.
+
+The average review score is rounded to two decimal places, converted to text using `CAST`, and replaced with `No Review` using `COALESCE` when no review score is available.
 
 ```sql
 coalesce(cast(round(avg(review_score),2) as varchar2(20)), 'No Review')
@@ -351,7 +352,7 @@ customer_rec
 
 `customer_rec` acts as the base population because it contains only customers who have placed at least three valid orders.
 
-### Why LEFT JOIN is used
+### Why LEFT JOIN Is Used
 
 Using `LEFT JOIN` ensures that repeat customers remain in the final report even if some additional information is unavailable.
 
@@ -464,7 +465,21 @@ Combining order value with review scores allows the business to identify situati
 
 ---
 
-## Report Flow Summary
+# 11. Output Preview
+
+The final query produces a customer-level report containing repeat-customer activity, top seller information, the three highest-value orders, and review information.
+
+Example structure:
+
+```text
+customer_unique_id | customer_city | total_orders | seller_id | top_seller_order_count | top_order_1 | top_order_1_value | final_review
+```
+
+The actual report output is stored separately as the Report 1 result dataset.
+
+---
+
+# 12. Report Flow Summary
 
 ```text
 Raw Olist Tables
@@ -487,8 +502,13 @@ Combine Customer Intelligence
        ▼
 Customer Value & Seller Performance Report
 ```
-## 11. Output Preview
 
-The final query produces a customer-level report containing repeat-customer activity,
-top seller information, the three highest-value orders, and review information.
+---
 
+# 13. SQL Implementation
+
+The complete executable Oracle SQL for this report is available in the main project SQL file:
+
+**[View Complete SQL Implementation](../sql-capstone-multi-table-ecommerce-analysis.sql)**
+
+The SQL implementation contains the complete CTE pipeline and final customer value and seller performance query.
