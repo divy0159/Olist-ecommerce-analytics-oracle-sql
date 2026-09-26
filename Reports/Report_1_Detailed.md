@@ -512,3 +512,7 @@ The complete executable Oracle SQL for this report is available in the main proj
 **[View Complete SQL Implementation](../sql-capstone-multi-table-ecommerce-analysis.sql)**
 
 The SQL implementation contains the complete CTE pipeline and final customer value and seller performance query.
+
+## 14. Report Output
+
+**[View Report 1 Output PDF](../Outputs/PDF/Report_1_Output.pdf)**
