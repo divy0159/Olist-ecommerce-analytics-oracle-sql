@@ -558,8 +558,12 @@ Apply Category Freight Flag
 Product Category Performance & Shipping Cost Risk Report
 ```
 
-# 13. SQL Implementation
+## 13. SQL Implementation
 
 The complete Oracle SQL implementation for this report is available in the main project SQL file.
 
 [View Complete SQL Implementation](../sql-capstone-multi-table-ecommerce-analysis.sql)
+
+## 14. Report Output
+
+**[View Report 2 Output PDF](../Outputs/Report_2_Output.pdf)**
