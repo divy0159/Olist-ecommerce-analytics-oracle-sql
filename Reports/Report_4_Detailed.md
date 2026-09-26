@@ -535,3 +535,7 @@ The complete executable Oracle SQL for this report is available in the main proj
 **[View Complete SQL Implementation](../sql-capstone-multi-table-ecommerce-analysis.sql)**
 
 The SQL implementation contains the complete CTE pipeline and final seller risk scorecard query.
+
+## 14. Report Output
+
+**[View Report 4 Output PDF](../Outputs/Report_4_Output.pdf)**
